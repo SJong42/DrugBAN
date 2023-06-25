@@ -7,6 +7,13 @@ from ban import BANLayer
 from torch.nn.utils.weight_norm import weight_norm
 
 
+
+def mean_absolute_error(pred_output, labels):
+    loss_fct = torch.nn.L1Loss()
+    loss = loss_fct(labels,pred_output)
+    return pred_output, loss
+
+
 def binary_cross_entropy(pred_output, labels):
     loss_fct = torch.nn.L1Loss()
     loss = loss_fct(pred_output, labels)
