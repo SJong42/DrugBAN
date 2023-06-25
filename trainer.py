@@ -4,6 +4,8 @@ import copy
 import os
 import numpy as np
 from sklearn.metrics import roc_auc_score, average_precision_score, roc_curve, confusion_matrix, precision_recall_curve, precision_score
+from sklearn.metrics import mean_absolute_error as mae
+from sklearn.metrics import r2_score as rse
 from models import binary_cross_entropy, cross_entropy_logits, entropy_logits, RandomLayer
 from prettytable import PrettyTable
 from domain_adaptator import ReverseLayerF
@@ -332,8 +334,8 @@ class Trainer(object):
                 test_loss += loss.item()
                 y_label = y_label + labels.to("cpu").tolist()
                 y_pred = y_pred + n.to("cpu").tolist()
-        auroc = roc_auc_score(y_label, y_pred)
-        auprc = average_precision_score(y_label, y_pred)
+        auroc = mae(y_label, y_pred)
+        auprc = rse(y_label, y_pred)
         test_loss = test_loss / num_batches
 
         if dataloader == "test":
