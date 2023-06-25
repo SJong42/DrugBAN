@@ -10,7 +10,7 @@ from torch.nn.utils.weight_norm import weight_norm
 def binary_cross_entropy(pred_output, labels):
     loss_fct = torch.nn.L1Loss()
     loss = loss_fct(pred_output, labels)
-    return n, loss
+    return loss
 
 
 def cross_entropy_logits(linear_output, label, weights=None):
