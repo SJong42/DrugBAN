@@ -7,6 +7,7 @@ from sklearn.metrics import roc_auc_score, average_precision_score, roc_curve, c
 from sklearn.metrics import mean_absolute_error as mae
 from sklearn.metrics import r2_score as rse
 from models_kcat import binary_cross_entropy, cross_entropy_logits, entropy_logits, RandomLayer
+from models_kcat import MA_error
 from prettytable import PrettyTable
 from domain_adaptator import ReverseLayerF
 from tqdm import tqdm
@@ -63,8 +64,8 @@ class Trainer(object):
         self.config = config
         self.output_dir = config["RESULT"]["OUTPUT_DIR"]
 
-        valid_metric_header = ["# Epoch", "AUROC", "AUPRC", "Val_loss"]
-        test_metric_header = ["# Best Epoch", "AUROC", "AUPRC", "F1", "Sensitivity", "Specificity", "Accuracy",
+        valid_metric_header = ["# Epoch", "MAE", "R2", "Val_loss"]
+        test_metric_header = ["# Best Epoch", "MAE", "R2", "F1", "Sensitivity", "Specificity", "Accuracy",
                               "Threshold", "Test_loss"]
         if not self.is_da:
             train_metric_header = ["# Epoch", "Train_loss"]
@@ -110,8 +111,8 @@ class Trainer(object):
             auroc, auprc, val_loss = self.test(dataloader="val")
             if self.experiment:
                 self.experiment.log_metric("valid_epoch model loss", val_loss, epoch=self.current_epoch)
-                self.experiment.log_metric("valid_epoch auroc", auroc, epoch=self.current_epoch)
-                self.experiment.log_metric("valid_epoch auprc", auprc, epoch=self.current_epoch)
+                self.experiment.log_metric("valid_epoch MAE", auroc, epoch=self.current_epoch)
+                self.experiment.log_metric("valid_epoch R2", auprc, epoch=self.current_epoch)
             val_lst = ["epoch " + str(self.current_epoch)] + list(map(float2str, [auroc, auprc, val_loss]))
             self.val_table.add_row(val_lst)
             self.val_loss_epoch.append(val_loss)
@@ -120,8 +121,8 @@ class Trainer(object):
                 self.best_model = copy.deepcopy(self.model)
                 self.best_auroc = auroc
                 self.best_epoch = self.current_epoch
-            print('Validation at Epoch ' + str(self.current_epoch) + ' with validation loss ' + str(val_loss), " AUROC "
-                  + str(auroc) + " AUPRC " + str(auprc))
+            print('Validation at Epoch ' + str(self.current_epoch) + ' with validation loss ' + str(val_loss), " MAE "
+                  + str(auroc) + " R2 " + str(auprc))
         auroc, auprc, f1, sensitivity, specificity, accuracy, test_loss, thred_optim, precision = self.test(dataloader="test")
         test_lst = ["epoch " + str(self.best_epoch)] + list(map(float2str, [auroc, auprc, f1, sensitivity, specificity,
                                                                             accuracy, thred_optim, test_loss]))
@@ -196,7 +197,7 @@ class Trainer(object):
             self.optim.zero_grad()
             v_d, v_p, f, score = self.model(v_d, v_p)
             if self.n_class == 1:
-                n, loss = binary_cross_entropy(score, labels)
+                n, loss = MA_error(score, labels)
             else:
                 n, loss = cross_entropy_logits(score, labels)
             loss.backward()
@@ -229,7 +230,7 @@ class Trainer(object):
             self.optim_da.zero_grad()
             v_d, v_p, f, score = self.model(v_d, v_p)
             if self.n_class == 1:
-                model_loss = binary_cross_entropy(score, labels)
+                n, model_loss = MA_error(score, labels)
             else:
                 n, model_loss = cross_entropy_logits(score, labels)
             if self.current_epoch >= self.da_init_epoch:
@@ -328,7 +329,7 @@ class Trainer(object):
                 elif dataloader == "test":
                     v_d, v_p, f, score = self.best_model(v_d, v_p)
                 if self.n_class == 1:
-                    n, loss = binary_cross_entropy(score, labels)
+                    n, loss = MA_error(score, labels)
                 else:
                     n, loss = cross_entropy_logits(score, labels)
                 test_loss += loss.item()
