@@ -9,9 +9,7 @@ from torch.nn.utils.weight_norm import weight_norm
 
 def binary_cross_entropy(pred_output, labels):
     loss_fct = torch.nn.L1Loss()
-    m = nn.Sigmoid()
-    n = torch.squeeze(m(pred_output), 1)
-    loss = loss_fct(n, labels)
+    loss = loss_fct(pred_output, labels)
     return n, loss
 
 
