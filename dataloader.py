@@ -8,7 +8,7 @@ from utils import integer_label_protein
 
 
 class DTIDataset(data.Dataset):
-    def __init__(self, list_IDs, df, max_drug_nodes=810):
+    def __init__(self, list_IDs, df, max_drug_nodes=300):
         self.list_IDs = list_IDs
         self.df = df
         self.max_drug_nodes = max_drug_nodes
