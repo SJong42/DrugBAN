@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.metrics import roc_auc_score, average_precision_score, roc_curve, confusion_matrix, precision_recall_curve, precision_score
 from sklearn.metrics import mean_absolute_error as mae
 from sklearn.metrics import r2_score as rse
-from models import binary_cross_entropy, cross_entropy_logits, entropy_logits, RandomLayer
+from models_kcat import binary_cross_entropy, cross_entropy_logits, entropy_logits, RandomLayer
 from prettytable import PrettyTable
 from domain_adaptator import ReverseLayerF
 from tqdm import tqdm
@@ -229,7 +229,7 @@ class Trainer(object):
             self.optim_da.zero_grad()
             v_d, v_p, f, score = self.model(v_d, v_p)
             if self.n_class == 1:
-                n, model_loss = binary_cross_entropy(score, labels)
+                model_loss = binary_cross_entropy(score, labels)
             else:
                 n, model_loss = cross_entropy_logits(score, labels)
             if self.current_epoch >= self.da_init_epoch:
