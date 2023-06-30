@@ -77,7 +77,7 @@ class DrugBAN(nn.Module):
 
 
 class MolecularGCN(nn.Module):
-    def __init__(self, in_feats, dim_embedding=128, padding=True, hidden_feats=None, activation=F.relu()):
+    def __init__(self, in_feats, dim_embedding=128, padding=True, hidden_feats=None, activation=None):
         super(MolecularGCN, self).__init__()
         self.init_transform = nn.Linear(in_feats, dim_embedding, bias=False)
         if padding:
