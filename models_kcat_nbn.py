@@ -115,9 +115,9 @@ class ProteinCNN(nn.Module):
     def forward(self, v):
         v = self.embedding(v.long())
         v = v.transpose(2, 1)
-        v = self.bn1(F.relu(self.conv1(v)))
-        v = self.bn2(F.relu(self.conv2(v)))
-        v = self.bn3(F.relu(self.conv3(v)))
+        v = F.relu(self.conv1(v))
+        v = F.relu(self.conv2(v))
+        v = F.relu(self.conv3(v))
         v = v.view(v.size(0), v.size(2), -1)
         return v
 
