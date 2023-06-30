@@ -9,7 +9,7 @@ from torch.nn.utils.weight_norm import weight_norm
 
 
 def MA_error(pred_output, labels):
-    loss_fct = torch.nn.L1Loss()
+    loss_fct = torch.nn.MSELoss()
     loss = loss_fct(labels,pred_output)
     return pred_output, loss
 
