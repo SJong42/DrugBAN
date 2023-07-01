@@ -123,13 +123,13 @@ class Trainer(object):
                 self.best_epoch = self.current_epoch
             print('Validation at Epoch ' + str(self.current_epoch) + ' with validation loss ' + str(val_loss), " MAE "
                   + str(auroc) + " R2 " + str(auprc))
-        auroc, auprc, f1, sensitivity, specificity, accuracy, test_loss, thred_optim, precision = self.test(dataloader="test")
-        test_lst = ["epoch " + str(self.best_epoch)] + list(map(float2str, [auroc, auprc, f1, sensitivity, specificity,
-                                                                            accuracy, thred_optim, test_loss]))
-        self.test_table.add_row(test_lst)
-        print('Test at Best Model of Epoch ' + str(self.best_epoch) + ' with test loss ' + str(test_loss), " MAE "
-              + str(auroc) + " R2 " + str(auprc) + " Sensitivity " + str(sensitivity) + " Specificity " +
-              str(specificity) + " Accuracy " + str(accuracy) + " Thred_optim " + str(thred_optim))
+        # auroc, auprc, f1, sensitivity, specificity, accuracy, test_loss, thred_optim, precision = self.test(dataloader="test")
+        # test_lst = ["epoch " + str(self.best_epoch)] + list(map(float2str, [auroc, auprc, f1, sensitivity, specificity,
+        #                                                                     accuracy, thred_optim, test_loss]))
+        # self.test_table.add_row(test_lst)
+        # print('Test at Best Model of Epoch ' + str(self.best_epoch) + ' with test loss ' + str(test_loss), " MAE "
+        #       + str(auroc) + " R2 " + str(auprc) + " Sensitivity " + str(sensitivity) + " Specificity " +
+        #       str(specificity) + " Accuracy " + str(accuracy) + " Thred_optim " + str(thred_optim))
         self.test_metrics["auroc"] = auroc
         self.test_metrics["auprc"] = auprc
         self.test_metrics["test_loss"] = test_loss
