@@ -197,8 +197,7 @@ class Trainer(object):
             self.optim.zero_grad()
             v_d, v_p, f, score = self.model(v_d, v_p)
             if self.n_class == 1:
-                loss = mae(score, labels)
-                n = score
+                n, loss = MA_error(score, labels)        
             else:
                 n, loss = cross_entropy_logits(score, labels)
             loss.backward()
@@ -330,8 +329,7 @@ class Trainer(object):
                 elif dataloader == "test":
                     v_d, v_p, f, score = self.best_model(v_d, v_p)
                 if self.n_class == 1:
-                    loss = mae(score, labels)
-                    n = score
+                    n, loss = MA_error(score, labels)
                 else:
                     n, loss = cross_entropy_logits(score, labels)
                 test_loss += loss.item()
