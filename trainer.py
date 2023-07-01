@@ -130,28 +130,28 @@ class Trainer(object):
         # print('Test at Best Model of Epoch ' + str(self.best_epoch) + ' with test loss ' + str(test_loss), " MAE "
         #       + str(auroc) + " R2 " + str(auprc) + " Sensitivity " + str(sensitivity) + " Specificity " +
         #       str(specificity) + " Accuracy " + str(accuracy) + " Thred_optim " + str(thred_optim))
-        self.test_metrics["auroc"] = auroc
-        self.test_metrics["auprc"] = auprc
-        self.test_metrics["test_loss"] = test_loss
-        self.test_metrics["sensitivity"] = sensitivity
-        self.test_metrics["specificity"] = specificity
-        self.test_metrics["accuracy"] = accuracy
-        self.test_metrics["thred_optim"] = thred_optim
-        self.test_metrics["best_epoch"] = self.best_epoch
-        self.test_metrics["F1"] = f1
-        self.test_metrics["Precision"] = precision
-        self.save_result()
-        if self.experiment:
-            self.experiment.log_metric("valid_best_auroc", self.best_auroc)
-            self.experiment.log_metric("valid_best_epoch", self.best_epoch)
-            self.experiment.log_metric("test_auroc", self.test_metrics["auroc"])
-            self.experiment.log_metric("test_auprc", self.test_metrics["auprc"])
-            self.experiment.log_metric("test_sensitivity", self.test_metrics["sensitivity"])
-            self.experiment.log_metric("test_specificity", self.test_metrics["specificity"])
-            self.experiment.log_metric("test_accuracy", self.test_metrics["accuracy"])
-            self.experiment.log_metric("test_threshold", self.test_metrics["thred_optim"])
-            self.experiment.log_metric("test_f1", self.test_metrics["F1"])
-            self.experiment.log_metric("test_precision", self.test_metrics["Precision"])
+        # self.test_metrics["auroc"] = auroc
+        # self.test_metrics["auprc"] = auprc
+        # self.test_metrics["test_loss"] = test_loss
+        # self.test_metrics["sensitivity"] = sensitivity
+        # self.test_metrics["specificity"] = specificity
+        # self.test_metrics["accuracy"] = accuracy
+        # self.test_metrics["thred_optim"] = thred_optim
+        # self.test_metrics["best_epoch"] = self.best_epoch
+        # self.test_metrics["F1"] = f1
+        # self.test_metrics["Precision"] = precision
+        # self.save_result()
+        # if self.experiment:
+        #     self.experiment.log_metric("valid_best_auroc", self.best_auroc)
+        #     self.experiment.log_metric("valid_best_epoch", self.best_epoch)
+        #     self.experiment.log_metric("test_auroc", self.test_metrics["auroc"])
+        #     self.experiment.log_metric("test_auprc", self.test_metrics["auprc"])
+        #     self.experiment.log_metric("test_sensitivity", self.test_metrics["sensitivity"])
+        #     self.experiment.log_metric("test_specificity", self.test_metrics["specificity"])
+        #     self.experiment.log_metric("test_accuracy", self.test_metrics["accuracy"])
+        #     self.experiment.log_metric("test_threshold", self.test_metrics["thred_optim"])
+        #     self.experiment.log_metric("test_f1", self.test_metrics["F1"])
+        #     self.experiment.log_metric("test_precision", self.test_metrics["Precision"])
         return self.test_metrics
 
     def save_result(self):
