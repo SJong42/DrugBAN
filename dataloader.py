@@ -13,7 +13,7 @@ class DTIDataset(data.Dataset):
         self.df = df
         self.max_drug_nodes = config["DRUG"]["MAX_DRUG_NODE"]
         self.max_protein_length = config["PROTEIN"]["MAX_PROTEIN_LENGTH"]
-        self.node_in_feats = cfg['DRUG']['NODE_IN_FEATS']
+        self.node_in_feats = config['DRUG']['NODE_IN_FEATS']
         self.atom_featurizer = CanonicalAtomFeaturizer()
         self.bond_featurizer = CanonicalBondFeaturizer(self_loop=True)
         self.fc = partial(smiles_to_bigraph, add_self_loop=True)
