@@ -123,7 +123,7 @@ class Trainer(object):
                 self.best_epoch = self.current_epoch
             print('Validation at Epoch ' + str(self.current_epoch) + ' with validation loss ' + str(val_loss), " MAE "
                   + str(auroc) + " R2 " + str(auprc))
-        auroc, auprc, f1, sensitivity, specificity, accuracy, test_loss, thred_optim, precision = self.test(dataloader="test")
+        # auroc, auprc, f1, sensitivity, specificity, accuracy, test_loss, thred_optim, precision = self.test(dataloader="test")
         # test_lst = ["epoch " + str(self.best_epoch)] + list(map(float2str, [auroc, auprc, f1, sensitivity, specificity,
         #                                                                     accuracy, thred_optim, test_loss]))
         # self.test_table.add_row(test_lst)
