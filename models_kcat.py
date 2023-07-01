@@ -11,8 +11,7 @@ from torch.nn.utils.weight_norm import weight_norm
 def MA_error(pred_output, labels):
     loss_fct = torch.nn.MSELoss()
     n = torch.squeeze(pred_output,1)
-    # loss = loss_fct(labels,n)
-    loss = torch.mean(torch.abs((labels - pred_output) / labels))
+    loss = loss_fct(labels,n)
     return n, loss
 
 
