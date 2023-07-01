@@ -8,11 +8,12 @@ from utils import integer_label_protein
 
 
 class DTIDataset(data.Dataset):
-    def __init__(self, list_IDs, df, max_drug_nodes=420):
+    def __init__(self, list_IDs, df, **config):
         self.list_IDs = list_IDs
         self.df = df
-        self.max_drug_nodes = max_drug_nodes
-
+        self.max_drug_nodes = config["DRUG"]["MAX_DRUG_NODE"]
+        self.max_protein_length = config["PROTEIN"]["MAX_PROTEIN_LENGTH"]
+        self.node_in_feats = cfg['DRUG']['NODE_IN_FEATS']
         self.atom_featurizer = CanonicalAtomFeaturizer()
         self.bond_featurizer = CanonicalBondFeaturizer(self_loop=True)
         self.fc = partial(smiles_to_bigraph, add_self_loop=True)
@@ -30,12 +31,12 @@ class DTIDataset(data.Dataset):
         virtual_node_bit = torch.zeros([num_actual_nodes, 1])
         actual_node_feats = torch.cat((actual_node_feats, virtual_node_bit), 1)
         v_d.ndata['h'] = actual_node_feats
-        virtual_node_feat = torch.cat((torch.zeros(num_virtual_nodes, 74), torch.ones(num_virtual_nodes, 1)), 1)
+        virtual_node_feat = torch.cat((torch.zeros(num_virtual_nodes, self.node_in_feats-1), torch.ones(num_virtual_nodes, 1)), 1)
         v_d.add_nodes(num_virtual_nodes, {"h": virtual_node_feat})
         v_d = v_d.add_self_loop()
 
         v_p = self.df.iloc[index]['Protein']
-        v_p = integer_label_protein(v_p)
+        v_p = integer_label_protein(v_p,self.max_protein_length)
         y = self.df.iloc[index]["Y"]
         # y = torch.Tensor([y])
         return v_d, v_p, y
