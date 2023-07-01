@@ -4,7 +4,7 @@ from torch.nn.utils.weight_norm import weight_norm
 
 
 class BANLayer(nn.Module):
-    def __init__(self, v_dim, q_dim, h_dim, h_out, act='ReLU', dropout=0.2, k=3):
+    def __init__(self, v_dim, q_dim, h_dim, h_out, act='ReLU', dropout=0.0, k=3):
         super(BANLayer, self).__init__()
 
         self.c = 32
