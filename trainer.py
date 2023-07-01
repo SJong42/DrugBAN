@@ -195,7 +195,7 @@ class Trainer(object):
             self.step += 1
             v_d, v_p, labels = v_d.to(self.device), v_p.to(self.device), labels.float().to(self.device)
             self.optim.zero_grad()
-            v_d, v_p, f, score = self.model(v_d, v_p)
+            v_D, v_P, f, score = self.model(v_d, v_p)
             if self.n_class == 1:
                 n, loss = MA_error(score, labels)        
             else:
@@ -327,7 +327,7 @@ class Trainer(object):
                 if dataloader == "val":
                     v_d, v_p, f, score = self.model(v_d, v_p)
                 elif dataloader == "test":
-                    v_d, v_p, f, score = self.best_model(v_d, v_p)
+                    v_D, v_P, f, score = self.best_model(v_d, v_p)
                 if self.n_class == 1:
                     n, loss = MA_error(score, labels)
                 else:
