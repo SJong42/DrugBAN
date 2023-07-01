@@ -60,7 +60,7 @@ def mkdir(path):
         os.makedirs(path)
 
 
-def integer_label_protein(sequence, max_length=5000):
+def integer_label_protein(sequence, max_length=500):
     """
     Integer encoding for protein string sequence.
     Args:
