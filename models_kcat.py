@@ -10,8 +10,9 @@ from torch.nn.utils.weight_norm import weight_norm
 
 def MA_error(pred_output, labels):
     loss_fct = torch.nn.MSELoss()
-    loss = loss_fct(labels,pred_output)
-    return pred_output, loss
+    n = torch.squeeze(pred_output,1)
+    loss = loss_fct(labels,n)
+    return n, loss
 
 
 def binary_cross_entropy(pred_output, labels):
