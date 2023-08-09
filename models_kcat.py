@@ -69,6 +69,8 @@ class DrugBAN(nn.Module):
     def forward(self, bg_d, v_p, mode="train"):
         v_d = self.drug_extractor(bg_d)
         v_p = self.protein_extractor(v_p)
+        v_d = torch.mean(v_d, 1)
+        v_p = torch.mean(v_p, 1)
         f, att = self.bcn(v_d, v_p)
         score = self.mlp_classifier(f)
         if mode == "train":
