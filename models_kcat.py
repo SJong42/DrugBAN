@@ -137,9 +137,9 @@ class MLPDecoder(nn.Module):
         self.fc4 = nn.Linear(out_dim, binary)
 
     def forward(self, x):
-        x = self.bn1(F.relu(self.fc1(x)))
-        x = self.bn2(F.relu(self.fc2(x)))
-        x = self.bn3(F.relu(self.fc3(x)))
+        x = self.F.relu(self.fc1(x))
+        x = self.F.relu(self.fc2(x))
+        x = self.F.relu(self.fc3(x))
         x = self.fc4(x)
         return x
 
