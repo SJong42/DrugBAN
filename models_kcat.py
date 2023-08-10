@@ -80,7 +80,7 @@ class DrugBAN(nn.Module):
 
 
 class MolecularGCN(nn.Module):
-    def __init__(self, in_feats, dim_embedding=128, padding=True, hidden_feats=None, activation=None):
+    def __init__(self, in_feats, dim_embedding=128, padding=False, hidden_feats=None, activation=None):
         super(MolecularGCN, self).__init__()
         self.init_transform = nn.Linear(in_feats, dim_embedding, bias=False)
         if padding:
@@ -99,7 +99,7 @@ class MolecularGCN(nn.Module):
 
 
 class ProteinCNN(nn.Module):
-    def __init__(self, embedding_dim, num_filters, kernel_size, padding=True):
+    def __init__(self, embedding_dim, num_filters, kernel_size, padding=False):
         super(ProteinCNN, self).__init__()
         if padding:
             self.embedding = nn.Embedding(26, embedding_dim, padding_idx=0)
