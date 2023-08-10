@@ -24,7 +24,7 @@ class BANLayer(nn.Module):
             self.h_mat = nn.Parameter(torch.Tensor(1, h_out, 1, h_dim * self.k).normal_())
             self.h_bias = nn.Parameter(torch.Tensor(1, h_out, 1, 1).normal_())
         else:
-            self.h_net = weight_norm(nn.Linear(h_dim * self.k, h_out), dim=None)
+            self.h_net = nn.Linear(h_dim * self.k, h_out)
 
         self.bn = nn.BatchNorm1d(h_dim)
 
@@ -55,7 +55,7 @@ class BANLayer(nn.Module):
         for i in range(1, self.h_out):
             logits_i = self.attention_pooling(v_, q_, att_maps[:, i, :, :])
             logits += logits_i
-        logits = self.bn(logits)
+        logits = logits
         return logits, att_maps
 
 
@@ -73,12 +73,12 @@ class FCNet(nn.Module):
             out_dim = dims[i + 1]
             if 0 < dropout:
                 layers.append(nn.Dropout(dropout))
-            layers.append(weight_norm(nn.Linear(in_dim, out_dim), dim=None))
+            layers.append(nn.Linear(in_dim, out_dim))
             if '' != act:
                 layers.append(getattr(nn, act)())
         if 0 < dropout:
             layers.append(nn.Dropout(dropout))
-        layers.append(weight_norm(nn.Linear(dims[-2], dims[-1]), dim=None))
+        layers.append(nn.Linear(dims[-2], dims[-1]))
         if '' != act:
             layers.append(getattr(nn, act)())
 
@@ -115,7 +115,7 @@ class BCNet(nn.Module):
             self.h_mat = nn.Parameter(torch.Tensor(1, h_out, 1, h_dim * self.k).normal_())
             self.h_bias = nn.Parameter(torch.Tensor(1, h_out, 1, 1).normal_())
         else:
-            self.h_net = weight_norm(nn.Linear(h_dim * self.k, h_out), dim=None)
+            self.h_net = nn.Linear(h_dim * self.k, h_out)
 
     def forward(self, v, q):
         if None == self.h_out:
