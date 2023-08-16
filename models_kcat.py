@@ -128,13 +128,13 @@ class ProteinCNN(nn.Module):
 class MLPDecoder(nn.Module):
     def __init__(self, in_dim, hidden_dim, out_dim, binary=1):
         super(MLPDecoder, self).__init__()
-        self.fc1 = nn.Linear(in_dim, hidden_dim)
+        self.fc1 = nn.Linear(in_dim, hidden_dim,bias=True)
         self.bn1 = nn.BatchNorm1d(hidden_dim)
-        self.fc2 = nn.Linear(hidden_dim, hidden_dim)
+        self.fc2 = nn.Linear(hidden_dim, hidden_dim,bias=True)
         self.bn2 = nn.BatchNorm1d(hidden_dim)
-        self.fc3 = nn.Linear(hidden_dim, out_dim)
+        self.fc3 = nn.Linear(hidden_dim, out_dim,bias=True)
         self.bn3 = nn.BatchNorm1d(out_dim)
-        self.fc4 = nn.Linear(out_dim, binary)
+        self.fc4 = nn.Linear(out_dim, binary,bias=True)
 
     def forward(self, x):
         x = F.relu(self.fc1(x))
