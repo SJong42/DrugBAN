@@ -61,9 +61,11 @@ class DrugBAN(nn.Module):
                                            hidden_feats=drug_hidden_feats)
         self.protein_extractor = ProteinCNN(protein_emb_dim, num_filters, kernel_size, protein_padding)
 
-        self.bcn = weight_norm(
-            BANLayer(v_dim=drug_hidden_feats[-1], q_dim=num_filters[-1], h_dim=mlp_in_dim, h_out=ban_heads),
-            name='h_mat', dim=None)
+        # self.bcn = weight_norm(
+        #     BANLayer(v_dim=drug_hidden_feats[-1], q_dim=num_filters[-1], h_dim=mlp_in_dim, h_out=ban_heads),
+        #     name='h_mat', dim=None)
+        self.bcn = BANLayer(v_dim=drug_hidden_feats[-1], q_dim=num_filters[-1], h_dim=mlp_in_dim, h_out=ban_heads)
+        
         self.mlp_classifier = MLPDecoder(mlp_in_dim, mlp_hidden_dim, mlp_out_dim, binary=out_binary)
 
     def forward(self, bg_d, v_p, mode="train"):
