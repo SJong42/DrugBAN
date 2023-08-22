@@ -123,7 +123,7 @@ class Trainer(object):
                 self.best_epoch = self.current_epoch
             print('Validation at Epoch ' + str(self.current_epoch) + ' with validation loss ' + str(val_loss), " MAE "
                   + str(auroc) + " R2 " + str(auprc))
-        # auroc, auprc, f1, sensitivity, specificity, accuracy, test_loss, thred_optim, precision = self.test(dataloader="test")
+        auroc, auprc, f1, sensitivity, specificity, accuracy, test_loss, thred_optim, precision = self.test(dataloader="test")
         # test_lst = ["epoch " + str(self.best_epoch)] + list(map(float2str, [auroc, auprc, f1, sensitivity, specificity,
         #                                                                     accuracy, thred_optim, test_loss]))
         # self.test_table.add_row(test_lst)
@@ -152,7 +152,9 @@ class Trainer(object):
         #     self.experiment.log_metric("test_threshold", self.test_metrics["thred_optim"])
         #     self.experiment.log_metric("test_f1", self.test_metrics["F1"])
         #     self.experiment.log_metric("test_precision", self.test_metrics["Precision"])
-        return self.test_metrics
+        # return self.test_metrics
+        return train_loss, val_loss, test_loss
+
 
     def save_result(self):
         if self.config["RESULT"]["SAVE_MODEL"]:
