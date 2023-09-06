@@ -123,7 +123,7 @@ class Trainer(object):
                 self.best_epoch = self.current_epoch
             print('Validation at Epoch ' + str(self.current_epoch) + ' with validation loss ' + str(val_loss), " MAE "
                   + str(auroc) + " R2 " + str(auprc))
-        auroc, auprc, f1, sensitivity, specificity, accuracy, test_loss, thred_optim, precision = self.test(dataloader="test")
+        auroc, auprc, test_loss = self.test(dataloader="test")
         # test_lst = ["epoch " + str(self.best_epoch)] + list(map(float2str, [auroc, auprc, f1, sensitivity, specificity,
         #                                                                     accuracy, thred_optim, test_loss]))
         # self.test_table.add_row(test_lst)
@@ -342,20 +342,21 @@ class Trainer(object):
         test_loss = test_loss / num_batches
 
         if dataloader == "test":
-            fpr, tpr, thresholds = roc_curve(y_label, y_pred)
-            prec, recall, _ = precision_recall_curve(y_label, y_pred)
-            precision = tpr / (tpr + fpr)
-            f1 = 2 * precision * tpr / (tpr + precision + 0.00001)
-            thred_optim = thresholds[5:][np.argmax(f1[5:])]
-            y_pred_s = [1 if i else 0 for i in (y_pred >= thred_optim)]
-            cm1 = confusion_matrix(y_label, y_pred_s)
-            accuracy = (cm1[0, 0] + cm1[1, 1]) / sum(sum(cm1))
-            sensitivity = cm1[0, 0] / (cm1[0, 0] + cm1[0, 1])
-            specificity = cm1[1, 1] / (cm1[1, 0] + cm1[1, 1])
-            if self.experiment:
-                self.experiment.log_curve("test_roc curve", fpr, tpr)
-                self.experiment.log_curve("test_pr curve", recall, prec)
-            precision1 = precision_score(y_label, y_pred_s)
-            return auroc, auprc, np.max(f1[5:]), sensitivity, specificity, accuracy, test_loss, thred_optim, precision1
+        #     fpr, tpr, thresholds = roc_curve(y_label, y_pred)
+        #     prec, recall, _ = precision_recall_curve(y_label, y_pred)
+        #     precision = tpr / (tpr + fpr)
+        #     f1 = 2 * precision * tpr / (tpr + precision + 0.00001)
+        #     thred_optim = thresholds[5:][np.argmax(f1[5:])]
+        #     y_pred_s = [1 if i else 0 for i in (y_pred >= thred_optim)]
+        #     cm1 = confusion_matrix(y_label, y_pred_s)
+        #     accuracy = (cm1[0, 0] + cm1[1, 1]) / sum(sum(cm1))
+        #     sensitivity = cm1[0, 0] / (cm1[0, 0] + cm1[0, 1])
+        #     specificity = cm1[1, 1] / (cm1[1, 0] + cm1[1, 1])
+        #     if self.experiment:
+        #         self.experiment.log_curve("test_roc curve", fpr, tpr)
+        #         self.experiment.log_curve("test_pr curve", recall, prec)
+        #     precision1 = precision_score(y_label, y_pred_s)
+            # return auroc, auprc, np.max(f1[5:]), sensitivity, specificity, accuracy, test_loss, thred_optim, precision1
+            return auroc, auprc, test_loss
         else:
             return auroc, auprc, test_loss
