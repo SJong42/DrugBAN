@@ -152,8 +152,8 @@ class Trainer(object):
         #     self.experiment.log_metric("test_threshold", self.test_metrics["thred_optim"])
         #     self.experiment.log_metric("test_f1", self.test_metrics["F1"])
         #     self.experiment.log_metric("test_precision", self.test_metrics["Precision"])
-        # return self.test_metrics
-        return train_loss, val_loss, test_loss
+        return self.test_metrics
+        # return train_loss, val_loss, test_loss
 
 
     def save_result(self):
