@@ -16,9 +16,12 @@ def MA_error(pred_output, labels):
 
 
 def binary_cross_entropy(pred_output, labels):
-    loss_fct = torch.nn.L1Loss()
-    loss = loss_fct(pred_output, labels)
-    return pred_output, loss
+    loss_fct = torch.nn.BCELoss()
+    m = nn.Sigmoid()
+    n = torch.squeeze(m(pred_output), 1)
+    loss = loss_fct(n, labels)
+    return n, loss
+
 
 
 def cross_entropy_logits(linear_output, label, weights=None):
