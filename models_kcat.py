@@ -25,7 +25,7 @@ def binary_cross_entropy(pred_output, labels):
 
 def cross_entropy_logits(linear_output, label, weights=None):
     class_output = F.log_softmax(linear_output, dim=1)
-    n = F.softmax(linear_output, dim=1)[:, 1]
+    n = F.softmax(linear_output, dim=1)[:, 0]
     max_class = class_output.max(1)
     y_hat = max_class[1]  # get the index of the max log-probability
     if weights is None:
