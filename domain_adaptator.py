@@ -26,10 +26,9 @@ class ReverseLayerF(Function):
 
 
 class Discriminator(nn.Module):
-    def __init__(self, input_size=128, n_class=1, bigger_discrim=True):
+    def __init__(self, input_size=128, output_size =128 , n_class=1, bigger_discrim=True):
 
         super(Discriminator, self).__init__()
-        output_size = 256 if bigger_discrim else 128
 
         self.bigger_discrim = bigger_discrim
         self.fc1 = nn.Linear(input_size, output_size)
