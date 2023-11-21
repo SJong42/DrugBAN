@@ -284,6 +284,22 @@ class Trainer(object):
                     n_tgt, loss_cdan_tgt = cross_entropy_logits(adv_output_tgt_score, torch.ones(self.batch_size).to(self.device),
                                                                 tgt_weight)
                     da_loss = loss_cdan_src + loss_cdan_tgt
+                elif self.da_method == "DANN":
+                    reverse_f = f
+                    adv_output_src_score = self.domain_dmm(reverse_f)
+
+                    reverse_f_t = f_t
+                    adv_output_tgt_score = self.domain_dmm(reverse_f_t)
+
+                    src_weight = None
+                    tgt_weight = None
+
+                    n_src, loss_cdan_src = cross_entropy_logits(adv_output_src_score, torch.zeros(self.batch_size).to(self.device),
+                                                                src_weight)
+                    n_tgt, loss_cdan_tgt = cross_entropy_logits(adv_output_tgt_score, torch.ones(self.batch_size).to(self.device),
+                                                                tgt_weight)
+                    da_loss = loss_cdan_src + loss_cdan_tgt
+                
                 else:
                     raise ValueError(f"The da method {self.da_method} is not supported")
                 loss = model_loss + da_loss
