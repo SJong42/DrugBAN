@@ -26,7 +26,7 @@ class ReverseLayerF(Function):
 
 
 class Discriminator(nn.Module):
-    def __init__(self, input_size=128, output_size =128 , n_class=1, bigger_discrim=True):
+    def __init__(self, input_size=128, output_size =128 , n_class=1, bigger_discrim=True, alpha=1):
 
         super(Discriminator, self).__init__()
 
@@ -38,8 +38,11 @@ class Discriminator(nn.Module):
         self.bn2 = nn.BatchNorm1d(output_size)
         self.relu2 = nn.ReLU()
         self.fc3 = nn.Linear(output_size, n_class)
+        
+        self.alpha = alpha
 
     def forward(self, x):
+        x = ReverseLayerF.apply(x, alpha)
         x = self.relu1(self.bn1(self.fc1(x)))
         if self.bigger_discrim:
             x = self.relu2(self.bn2(self.fc2(x)))
