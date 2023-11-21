@@ -42,7 +42,7 @@ class Discriminator(nn.Module):
         self.alpha = alpha
 
     def forward(self, x):
-        x = ReverseLayerF.apply(x, alpha)
+        x = ReverseLayerF.apply(x, self.alpha)
         x = self.relu1(self.bn1(self.fc1(x)))
         if self.bigger_discrim:
             x = self.relu2(self.bn2(self.fc2(x)))
