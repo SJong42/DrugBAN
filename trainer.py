@@ -238,7 +238,7 @@ class Trainer(object):
             if self.current_epoch >= self.da_init_epoch:
                 v_d_t, v_p_t, f_t, t_score = self.model(v_d_t, v_p_t)
                 if self.da_method == "CDAN":
-                    reverse_f = ReverseLayerF.apply(f, self.alpha)
+                    reverse_f = f
                     softmax_output = torch.nn.Softmax(dim=1)(score)
                     softmax_output = softmax_output.detach()
                     # reverse_output = ReverseLayerF.apply(softmax_output, self.alpha)
@@ -254,7 +254,7 @@ class Trainer(object):
                         else:
                             adv_output_src_score = self.domain_dmm(feature)
 
-                    reverse_f_t = ReverseLayerF.apply(f_t, self.alpha)
+                    reverse_f_t = f_t
                     softmax_output_t = torch.nn.Softmax(dim=1)(t_score)
                     softmax_output_t = softmax_output_t.detach()
                     # reverse_output_t = ReverseLayerF.apply(softmax_output_t, self.alpha)
