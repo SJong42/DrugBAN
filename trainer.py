@@ -228,7 +228,7 @@ class Trainer(object):
             v_d, v_p, labels = batch_s[0].to(self.device), batch_s[1].to(self.device), batch_s[2].float().to(
                 self.device)
             v_d_t, v_p_t = batch_t[0].to(self.device), batch_t[1].to(self.device)
-            self.optim.zero_grad()
+            # self.optim.zero_grad()
             self.optim_da.zero_grad()
             v_d, v_p, f, score = self.model(v_d, v_p)
             if self.n_class == 1:
@@ -290,7 +290,7 @@ class Trainer(object):
             else:
                 loss = model_loss
             loss.backward()
-            self.optim.step()
+            # self.optim.step()
             self.optim_da.step()
             total_loss_epoch += loss.item()
             model_loss_epoch += model_loss.item()
